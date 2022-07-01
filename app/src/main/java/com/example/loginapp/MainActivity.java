@@ -5,7 +5,10 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -44,5 +47,10 @@ public class MainActivity extends AppCompatActivity {
         void addFragmet(Fragment fragment) {
             fragmentList.add(fragment);
         }
+    }
+
+    public void onLogin(View view) {
+        Intent intent = new Intent("com.example.loginapp.MainActivity2");
+        startActivity(intent);
     }
 }
