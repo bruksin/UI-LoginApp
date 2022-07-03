@@ -8,7 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -50,7 +53,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onLogin(View view) {
-        Intent intent = new Intent("com.example.loginapp.MainActivity2");
-        startActivity(intent);
+        final String testLogin = "demo";
+        final String testPassword = "demo";
+
+        TextView infoText = (TextView) findViewById(R.id.tv_subtitle);
+        EditText printLogin = (EditText) findViewById(R.id.et_email);
+        EditText printPassword = (EditText) findViewById(R.id.text_password);
+        String textLogin = printLogin.getText().toString();
+        String textPassword = printPassword.getText().toString();
+        Log.v(textLogin, "pass=" + infoText.getText());
+        if (textLogin.equals(testLogin) && textPassword.equals(testPassword)) {
+            Intent intent = new Intent("com.example.loginapp.MainActivity2");
+            startActivity(intent);
+        }
+        else {
+            infoText.setText("Не верный логин или пароль");
+        }
+
     }
 }

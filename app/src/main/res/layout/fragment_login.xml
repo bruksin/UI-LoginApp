@@ -56,6 +56,7 @@
         app:passwordToggleEnabled="true">
 
         <EditText
+            android:id="@+id/text_password"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:hint="@string/password"
