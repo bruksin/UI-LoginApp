@@ -6,7 +6,9 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -78,6 +80,11 @@ public class MainActivity extends AppCompatActivity {
         params.put("login", textLogin);
         params.put("passwd", textPassword);
 
+        SharedPreferences prefs;
+        SharedPreferences.Editor edit;
+        prefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        edit = prefs.edit();
+
         JSONObject parameters = new JSONObject(params);
         Log.v("JSONObject", " = " + parameters);
 
@@ -88,17 +95,18 @@ public class MainActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         try {
                             String jwt = response.getString("jwt");
+                            edit.putString("jwt", jwt);
                             Log.v("response", "good = " + jwt);
-                            JWTUtils.decoded(jwt);
+                            edit.commit();
+                            Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                            startActivity(intent);
                         } catch (Exception e) {
                             e.printStackTrace();
                             Log.v("JWT", "error = " + e);
+                            infoText.setText("Ошибка авторизации");
                         }
-                        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
-                        startActivity(intent);
                     }
                 }, new Response.ErrorListener() {
-
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.v("response", "error = " + error);
@@ -106,13 +114,5 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
         Volley.newRequestQueue(this).add(jsonObjectRequest);
-//        if (textLogin.equals(testLogin) && textPassword.equals(testPassword)) {
-//            Intent intent = new Intent(this, MainActivity2.class);;
-//            startActivity(intent);
-//        }
-//        else {
-//            infoText.setText("Не верный логин или пароль");
-//        }
-
     }
 }
