@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -85,14 +86,23 @@ public class MainActivity extends AppCompatActivity {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.v("response", "good = " + response);
+                        try {
+                            String jwt = response.getString("jwt");
+                            Log.v("response", "good = " + jwt);
+                            JWTUtils.decoded(jwt);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.v("JWT", "error = " + e);
+                        }
+                        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+                        startActivity(intent);
                     }
                 }, new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.v("response", "error = " + error);
-
+                        infoText.setText("Неверный логин или пароль");
                     }
                 });
         Volley.newRequestQueue(this).add(jsonObjectRequest);
