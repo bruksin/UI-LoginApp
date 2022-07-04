@@ -56,14 +56,14 @@ public class MainActivity extends AppCompatActivity {
         final String testLogin = "demo";
         final String testPassword = "demo";
 
-        TextView infoText = (TextView) findViewById(R.id.tv_subtitle);
-        EditText printLogin = (EditText) findViewById(R.id.et_email);
-        EditText printPassword = (EditText) findViewById(R.id.text_password);
+        TextView infoText = findViewById(R.id.tv_subtitle);
+        EditText printLogin = findViewById(R.id.et_email);
+        EditText printPassword = findViewById(R.id.text_password);
         String textLogin = printLogin.getText().toString();
         String textPassword = printPassword.getText().toString();
-        Log.v(textLogin, "pass=" + infoText.getText());
+        //Log.v(textLogin, "pass=" + infoText.getText());
         if (textLogin.equals(testLogin) && textPassword.equals(testPassword)) {
-            Intent intent = new Intent("com.example.loginapp.MainActivity2");
+            Intent intent = new Intent(this, MainActivity2.class);;
             startActivity(intent);
         }
         else {

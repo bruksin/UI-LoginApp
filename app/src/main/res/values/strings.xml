@@ -7,7 +7,7 @@
     <string name="login"> Логин</string>
     <string name="password">Пароль</string>
     <string name="e_mail">Email</string>
-    <string name="tag">Авторизуйтесь для работы \nв Личном кабинете</string>
+    <string name="tag">Для продолжение работы необходима авторизация</string>
     <string name="swipe_right_for_login">Смахните вправо для Входа</string>
     <string name="register">Регистрация</string>
     <string name="re_type_password">Еще раз пароль</string>
