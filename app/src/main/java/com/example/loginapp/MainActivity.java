@@ -13,7 +13,17 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,13 +72,37 @@ public class MainActivity extends AppCompatActivity {
         String textLogin = printLogin.getText().toString();
         String textPassword = printPassword.getText().toString();
         //Log.v(textLogin, "pass=" + infoText.getText());
-        if (textLogin.equals(testLogin) && textPassword.equals(testPassword)) {
-            Intent intent = new Intent(this, MainActivity2.class);;
-            startActivity(intent);
-        }
-        else {
-            infoText.setText("Не верный логин или пароль");
-        }
+        String url = "https://lk.etc-ohrana.ru:8443/api/login.php";
+        Map<String, String> params = new HashMap();
+        params.put("login", textLogin);
+        params.put("passwd", textPassword);
+
+        JSONObject parameters = new JSONObject(params);
+        Log.v("JSONObject", " = " + parameters);
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.v("response", "good = " + response);
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v("response", "error = " + error);
+
+                    }
+                });
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
+//        if (textLogin.equals(testLogin) && textPassword.equals(testPassword)) {
+//            Intent intent = new Intent(this, MainActivity2.class);;
+//            startActivity(intent);
+//        }
+//        else {
+//            infoText.setText("Не верный логин или пароль");
+//        }
 
     }
 }
