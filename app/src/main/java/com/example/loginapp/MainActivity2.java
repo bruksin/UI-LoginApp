@@ -25,13 +25,14 @@ public class MainActivity2 extends AppCompatActivity {
 
     private static String snObj;
     private static String nameObj;
-    private static String statusObj = "";
+    private static String statusObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         TextView infoObjText = findViewById(R.id.imageView);
+        statusObj = "";
         SharedPreferences prefs;
         prefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
         String jwt = prefs.getString("jwt","");
@@ -96,13 +97,71 @@ public class MainActivity2 extends AppCompatActivity {
 
     public void onArm(View view) {
         TextView infoObjText = findViewById(R.id.imageView);
-        statusObj = "\nвзят на охрану";
+        SharedPreferences prefs;
+        prefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        String jwt = prefs.getString("jwt","");
+        statusObj = "\nсоединение с прибором. ждите...";
         infoObjText.setText(nameObj + statusObj);
+
+        String url = "https://lk.etc-ohrana.ru:8443/api/validate_token.php";
+        Map<String, String> params = new HashMap();
+        params.put("jwt", jwt);
+        params.put("cmd", "ArmObj");
+        JSONObject parameters = new JSONObject(params);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            statusObj = response.getJSONObject("cmdInfo").getString("message");
+                            infoObjText.setText(nameObj + statusObj);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.v("ArmObj", "error = " + e);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v("response", "error = " + error);
+                    }
+                });
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 
     public void onDisarm(View view) {
         TextView infoObjText = findViewById(R.id.imageView);
-        statusObj = "\nснят с охраны";
+        SharedPreferences prefs;
+        prefs = getSharedPreferences("myPrefs", Context.MODE_PRIVATE);
+        String jwt = prefs.getString("jwt","");
+        statusObj = "\nсоединение с прибором. ждите...";
         infoObjText.setText(nameObj + statusObj);
+
+        String url = "https://lk.etc-ohrana.ru:8443/api/validate_token.php";
+        Map<String, String> params = new HashMap();
+        params.put("jwt", jwt);
+        params.put("cmd", "DisarmObj");
+        JSONObject parameters = new JSONObject(params);
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.POST, url, parameters, new Response.Listener<JSONObject>() {
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            statusObj = response.getJSONObject("cmdInfo").getString("message");
+                            infoObjText.setText(nameObj + statusObj);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            Log.v("ArmObj", "error = " + e);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.v("response", "error = " + error);
+                    }
+                });
+        Volley.newRequestQueue(this).add(jsonObjectRequest);
     }
 }
