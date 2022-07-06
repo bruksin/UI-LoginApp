@@ -114,7 +114,7 @@ public class MainActivity2 extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            statusObj = response.getJSONObject("cmdInfo").getString("message");
+                            statusObj = "\n" + response.getJSONObject("cmdInfo").getString("message");
                             infoObjText.setText(nameObj + statusObj);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -149,7 +149,7 @@ public class MainActivity2 extends AppCompatActivity {
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
-                            statusObj = response.getJSONObject("cmdInfo").getString("message");
+                            statusObj = "\n" + response.getJSONObject("cmdInfo").getString("message");
                             infoObjText.setText(nameObj + statusObj);
                         } catch (Exception e) {
                             e.printStackTrace();
